@@ -1,0 +1,13 @@
+{
+  "intents": [
+    {
+      "intent": "HowManyDaysLeft"
+    },
+    {
+      "intent": "WhatIsLastDay"
+    },
+    {
+      "intent":"IHearThoseThingsAreAwfullyLoud"
+    }
+  ]
+}
