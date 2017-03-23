@@ -6,11 +6,13 @@ as testing instructions are located at http://amzn.to/1LzFrj6
 For additional samples, visit the Alexa Skills Kit Getting Started guide at
 http://amzn.to/1LGWsLG
 """
-from datetime import datetime, timedelta, date
-from __future__ import print_function
 
+from __future__ import print_function
+# import buildSchoolCalendar
+from datetime import timedelta, date
 
 # --------------- Helpers that build all of the responses ----------------------
+
 
 def build_speechlet_response(title, output, reprompt_text, should_end_session):
     return {
@@ -76,30 +78,27 @@ def handle_session_end_request():
 def create_favorite_color_attributes(favorite_color):
     return {"favoriteColor": favorite_color}
 
+
 def howManyDaysLeft(intent, session):
     """ Determines how many school days left.
     """
 
-    card_title = intent['name']
     session_attributes = {}
     should_end_session = False
     numDays = howManyLeft()
-    speech_output = "There are " +numDays + " left in the school year"
+    speech_output = "There are " + str(numDays) + "days left in the school year"
     reprompt_text = "Try Again?"
-
-
     return build_response(session_attributes, build_speechlet_response(
-        card_title, speech_output, reprompt_text, should_end_session))
-
-
+        intent['name'], speech_output, reprompt_text, should_end_session))
 
 
 def whatIsLastDay(intent, session):
     session_attributes = {}
     reprompt_text = None
-    lastDay = whenIsLastDay();
-    speech_output = "The last day of school in NYC is " + lastDay + \
-                        ". Goodbye."
+    lastDay = whenIsLastDay()
+    lastDayString = lastDay.strftime("%B %d")
+    speech_output = "The last day of school in NYC is " + lastDayString + \
+        ". Goodbye."
     should_end_session = True
 
     # Setting reprompt_text to None signifies that we do not want to reprompt
@@ -107,6 +106,7 @@ def whatIsLastDay(intent, session):
     # understood, the session will end.
     return build_response(session_attributes, build_speechlet_response(
         intent['name'], speech_output, reprompt_text, should_end_session))
+
 
 def i_hear_those_things(intent, session):
     session_attributes = {}
@@ -120,6 +120,7 @@ def i_hear_those_things(intent, session):
         intent['name'], speech_output, reprompt_text, should_end_session))
 
 # --------------- Events ------------------
+
 
 def on_session_started(session_started_request, session):
     """ Called when the session starts """
@@ -203,115 +204,111 @@ def lambda_handler(event, context):
         return on_session_ended(event['request'], event['session'])
 
 
-#School calendar specific code
-from datetime import datetime, timedelta, date
-import json;
+def makeVacationDay(day, vacationDays):
+    vacationDays[day] = True
 
-def makeVacationDay(day,vacationDays):
-    vacationDays[day] = True;
 
-#returns array of dates
-def makeDateList(start,end,delta,vacationDays):
-    daysRemaining=0
-    returnArray = {};
-    currentDate = end;
-    while currentDate>start:
+# returns array of dates
+def makeDateList(start, end, delta, vacationDays):
+    daysRemaining = 0
+    returnArray = {}
+    currentDate = end
+    while currentDate > start:
+        returnArray[currentDate] = daysRemaining
+        daysRemaining = getDaysRemaining(currentDate, daysRemaining, vacationDays)
+        currentDate += delta
+    return returnArray
 
-        returnArray[currentDate]=daysRemaining;
-        daysRemaining = getDaysRemaining(currentDate, daysRemaining,vacationDays);
 
-        currentDate+=delta;
-    return returnArray;
-
-def getDaysRemaining(currentDate,remainingDays,vacationDays):
-    if(isDayOff(currentDate,vacationDays)):
+def getDaysRemaining(currentDate, remainingDays, vacationDays):
+    if isDayOff(currentDate, vacationDays):
         return remainingDays
     else:
-        return remainingDays+1;
+        return remainingDays + 1
 
-def isDayOff(currentDate,vacationDays):
-    if(isWeekend(currentDate)):
-        return True;
-    if(isVacationDay(currentDate,vacationDays)):
-        return True;
-    return False;
+
+def isDayOff(currentDate, vacationDays):
+    if isWeekend(currentDate):
+        return True
+    if isVacationDay(currentDate, vacationDays):
+        return True
+    return False
+
 
 def isWeekend(currentDate):
-    if(currentDate.weekday()>4):
-        return True;
+    if currentDate.weekday() > 4:
+        return True
     else:
-        return False;
+        return False
 
-def isVacationDay(currentDate,vacationDays):
-    if(currentDate in vacationDays):
-        return True;
+
+def isVacationDay(currentDate, vacationDays):
+    if currentDate in vacationDays:
+        return True
     else:
-        return False;
+        return False
 
-def howManySchoolDaysRemain(date,dateList):
-    return dateList[date];
+
+def howManySchoolDaysRemain(theDate, dateList):
+    return dateList[theDate]
+
 
 def getStartDay():
     startDate = date(2016, 9, 8)
-    return startDate;
+    return startDate
+
 
 def getEndDay():
     endDate = date(2017, 6, 28)
-    return  endDate;
+    return endDate
+
 
 def howManyLeft():
-    vacationDays = makeVacationList();
+    vacationDays = makeVacationList()
     startDate = getStartDay()
     endDate = getEndDay()
-    dateList = makeDateList(startDate, endDate, timedelta(days=-1),vacationDays);
-    today = date.today();
-    return howManySchoolDaysRemain(today,dateList);
+    dateList = makeDateList(startDate, endDate, timedelta(days=-1), vacationDays)
+    today = date.today()
+    return howManySchoolDaysRemain(today, dateList)
+
 
 def whenIsLastDay():
     return getEndDay()
 
+
 def makeVacationList():
     vacationDays = {}
-    makeVacationDay(date(2016,9,12),vacationDays);
-    makeVacationDay(date(2016,10,3),vacationDays);
-    makeVacationDay(date(2016,10,4),vacationDays);
-    makeVacationDay(date(2016,10,10),vacationDays);
-    makeVacationDay(date(2016,10,12),vacationDays);
-    makeVacationDay(date(2016,11,8),vacationDays);
-    makeVacationDay(date(2016,11,11),vacationDays);
-    makeVacationDay(date(2016,11,24),vacationDays);
-    makeVacationDay(date(2016,11,25),vacationDays);
-    makeVacationDay(date(2016,12,26),vacationDays);
-    makeVacationDay(date(2016,12,27),vacationDays);
-    makeVacationDay(date(2016,12,28),vacationDays);
-    makeVacationDay(date(2016,12,29),vacationDays);
-    makeVacationDay(date(2016,12,30),vacationDays);
-    makeVacationDay(date(2017,1,2),vacationDays);
-    makeVacationDay(date(2017,1,16),vacationDays);
-    makeVacationDay(date(2017,2,20),vacationDays);
-    makeVacationDay(date(2017,2,21),vacationDays);
-    makeVacationDay(date(2017,2,22),vacationDays);
-    makeVacationDay(date(2017,2,23),vacationDays);
-    makeVacationDay(date(2017,2,24),vacationDays);
-    makeVacationDay(date(2017,4,10),vacationDays);
-    makeVacationDay(date(2017,4,11),vacationDays);
-    makeVacationDay(date(2017,4,12),vacationDays);
-    makeVacationDay(date(2017,4,13),vacationDays);
-    makeVacationDay(date(2017,4,14),vacationDays);
-    makeVacationDay(date(2017,4,17),vacationDays);
-    makeVacationDay(date(2017,4,18),vacationDays);
-    makeVacationDay(date(2017,5,29),vacationDays);
-    makeVacationDay(date(2017,6,8),vacationDays);
-    makeVacationDay(date(2017,6,12), vacationDays);
-    makeVacationDay(date(2017,6,26),vacationDays);
-    return vacationDays;
+    makeVacationDay(date(2016, 9, 12), vacationDays)
+    makeVacationDay(date(2016, 10, 3), vacationDays)
+    makeVacationDay(date(2016, 10, 4), vacationDays)
+    makeVacationDay(date(2016, 10, 10), vacationDays)
+    makeVacationDay(date(2016, 10, 12), vacationDays)
+    makeVacationDay(date(2016, 11, 8), vacationDays)
+    makeVacationDay(date(2016, 11, 11), vacationDays)
+    makeVacationDay(date(2016, 11, 24), vacationDays)
+    makeVacationDay(date(2016, 11, 25), vacationDays)
+    makeVacationDay(date(2016, 12, 26), vacationDays)
+    makeVacationDay(date(2016, 12, 27), vacationDays)
+    makeVacationDay(date(2016, 12, 28), vacationDays)
+    makeVacationDay(date(2016, 12, 29), vacationDays)
+    makeVacationDay(date(2016, 12, 30), vacationDays)
+    makeVacationDay(date(2017, 1, 2), vacationDays)
+    makeVacationDay(date(2017, 1, 16), vacationDays)
+    makeVacationDay(date(2017, 2, 20), vacationDays)
+    makeVacationDay(date(2017, 2, 21), vacationDays)
+    makeVacationDay(date(2017, 2, 22), vacationDays)
+    makeVacationDay(date(2017, 2, 23), vacationDays)
+    makeVacationDay(date(2017, 2, 24), vacationDays)
+    makeVacationDay(date(2017, 4, 10), vacationDays)
+    makeVacationDay(date(2017, 4, 11), vacationDays)
+    makeVacationDay(date(2017, 4, 12), vacationDays)
+    makeVacationDay(date(2017, 4, 13), vacationDays)
+    makeVacationDay(date(2017, 4, 14), vacationDays)
+    makeVacationDay(date(2017, 4, 17), vacationDays)
+    makeVacationDay(date(2017, 4, 18), vacationDays)
+    makeVacationDay(date(2017, 5, 29), vacationDays)
+    makeVacationDay(date(2017, 6, 8), vacationDays)
+    makeVacationDay(date(2017, 6, 12), vacationDays)
+    makeVacationDay(date(2017, 6, 26), vacationDays)
+    return vacationDays
 
-
-
-
-#print howManyLeft();
-#print today
-#print(len(dateList))
-
-#for k, v in sorted(dateList.items()):
-#    print k,v
