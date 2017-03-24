@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c82eb11d-7a3a-4133-b17c-ca2c099f10fc" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/SchoolDates.json" afterPath="$PROJECT_DIR$/NYC20162017SchoolDates.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Archive.zip" afterPath="$PROJECT_DIR$/Archive.zip" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -33,7 +33,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="howManyDays.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="howManyDays.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/howManyDays.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="405">
@@ -41,6 +41,16 @@
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="3" lean-forward="false" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -62,7 +72,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="570">
               <caret line="38" column="1" lean-forward="false" selection-start-line="38" selection-start-column="1" selection-end-line="38" selection-end-column="1" />
-              <folding />
+              <folding>
+                <marker date="1490365394000" expanded="true" signature="0:815" ph="{&quot;startDate&quot;: &quot;9-8-2016&quot;...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -102,8 +114,8 @@
       <find>&quot;,</find>
       <find>True</find>
       <find>-</find>
-      <find>;</find>
       <find>/20</find>
+      <find>;</find>
     </findStrings>
     <replaceStrings>
       <replace>-</replace>
@@ -123,6 +135,7 @@
         <option value="$PROJECT_DIR$/SchoolDates.json" />
         <option value="$PROJECT_DIR$/makeSchoolDateJSON.py" />
         <option value="$PROJECT_DIR$/howManyDays.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -335,7 +348,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1337" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1078125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -423,7 +436,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
           <caret line="38" column="1" lean-forward="false" selection-start-line="38" selection-start-column="1" selection-end-line="38" selection-end-column="1" />
-          <folding />
+          <folding>
+            <marker date="1490365394000" expanded="true" signature="0:815" ph="{&quot;startDate&quot;: &quot;9-8-2016&quot;...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -444,6 +459,14 @@
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="3" lean-forward="false" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
+          <folding />
         </state>
       </provider>
     </entry>
