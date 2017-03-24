@@ -65,4 +65,4 @@ def makeJSON(filename):
     dumpToJson(dateList, filename)
 
 
-makeJSON('schooldaydata3.json')
+makeJSON('SchoolDataNYC20162017.json')

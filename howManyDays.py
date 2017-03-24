@@ -15,21 +15,13 @@ def getEndDay():
     return endDate
 
 def howManyLeft():
-
-    with open('schooldaydata.json') as data:
+    with open('SchoolDataNYC20162017.json') as data:
         dateList = json.load(data)
-        print(dateList)
     today = date.today()
     return howManySchoolDaysRemain(today, dateList)
 
 def whenIsLastDay():
     return getEndDay()
 
-'''
-'''
-print howManyLeft()
-# print today
-# print(len(dateList))
 
-# for k, v in sorted(dateList.items()):
-#    print k,v
+print howManyLeft()
