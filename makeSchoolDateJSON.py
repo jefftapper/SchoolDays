@@ -56,7 +56,7 @@ def dumpToJson(data, filename):
 
 
 def makeJSON(filename):
-    with open("SchoolDates.json", 'r') as data:
+    with open("NYC20162017SchoolDates.json", 'r') as data:
         obj = json.load(data)
     vacationDays = obj["vacationDays"]
     startDate = parser.parse(obj["startDate"])
