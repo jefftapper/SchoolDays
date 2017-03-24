@@ -88,6 +88,7 @@ def howManyDaysLeft(intent, session):
     numDays = howManyDays.howManyLeft()
     speech_output = "There are " + str(numDays) + "days left in the school year"
     reprompt_text = "Try Again?"
+    should_end_session = True
     return build_response(session_attributes, build_speechlet_response(
         intent['name'], speech_output, reprompt_text, should_end_session))
 
@@ -97,8 +98,7 @@ def whatIsLastDay(intent, session):
     reprompt_text = None
     lastDay = howManyDays.whenIsLastDay()
     lastDayString = lastDay.strftime("%B %d")
-    speech_output = "The last day of school in NYC is " + lastDayString + \
-        ". Goodbye."
+    speech_output = "The last day of school in NYC is " + lastDayString
     should_end_session = True
 
     # Setting reprompt_text to None signifies that we do not want to reprompt
