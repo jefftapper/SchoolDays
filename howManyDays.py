@@ -1,27 +1,39 @@
-from datetime import timedelta, date
+from datetime import date, datetime
 import json
+
 
 def howManySchoolDaysRemain(theDate, dateList):
     return dateList[theDate.strftime("%x")]
 
 
-def getStartDay():
-    startDate = date(2016, 9, 8)
-    return startDate
+def getEndDay(dateList):
+    print dateList
 
+    dateArray = []
+    for dates in dateList:
+        dateArray.append(datetime.strptime(dates, "%m/%d/%y"))
 
-def getEndDay():
-    endDate = date(2017, 6, 28)
-    return endDate
+    dateArray = sorted(dateArray)
+
+    return dateArray[len(dateArray) - 1]
+
 
 def howManyLeft():
-    with open('SchoolDataNYC20162017.json') as data:
-        dateList = json.load(data)
+    dateList = getDateList()
     today = date.today()
     return howManySchoolDaysRemain(today, dateList)
 
+
+def getDateList():
+    with open('SchoolDataNYC20162017.json') as data:
+        dates = json.load(data)
+    return dates
+
+
 def whenIsLastDay():
-    return getEndDay()
+    return getEndDay(getDateList())
 
 
-print howManyLeft()
+# print howManyLeft()
+
+print whenIsLastDay()
