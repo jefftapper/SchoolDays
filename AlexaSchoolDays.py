@@ -8,6 +8,7 @@ http://amzn.to/1LGWsLG
 """
 
 from __future__ import print_function
+from datetime import date
 import howManyDays
 
 
@@ -85,7 +86,7 @@ def howManyDaysLeft(intent, session):
 
     session_attributes = {}
     should_end_session = False
-    numDays = howManyDays.howManyLeft()
+    numDays = howManyDays.howManyLeft(date.today)
     speech_output = "There are " + str(numDays) + "days left in the school year"
     reprompt_text = "Try Again?"
     should_end_session = True

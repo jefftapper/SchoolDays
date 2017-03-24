@@ -11,16 +11,18 @@ def getEndDay(dateList):
 
     dateArray = []
     for dates in dateList:
-        dateArray.append(datetime.strptime(dates, "%m/%d/%y"))
+        dateArray.append(datetime.strptime(dates, "%m/%d/%y").date())
 
     dateArray = sorted(dateArray)
 
     return dateArray[len(dateArray) - 1]
 
 
-def howManyLeft():
+def howManyLeft(today):
     dateList = getDateList()
-    today = date.today()
+
+    if today > getEndDay(dateList):
+        return 0
     return howManySchoolDaysRemain(today, dateList)
 
 
@@ -34,6 +36,6 @@ def whenIsLastDay():
     return getEndDay(getDateList())
 
 
-# print howManyLeft()
+print howManyLeft(date(2017,06,29))
 
 print whenIsLastDay()

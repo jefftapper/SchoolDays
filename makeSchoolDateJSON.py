@@ -2,7 +2,7 @@ from datetime import timedelta, date
 import json
 from dateutil import parser
 
-
+fileName = 'SchoolDataNYC20162017.json'
 def makeVacationDay(day, vacationDays):
     vacationDays[day] = True
 
@@ -56,7 +56,7 @@ def dumpToJson(data, filename):
 
 
 def makeJSON(filename):
-    with open("NYC20162017SchoolDates.json", 'r') as data:
+    with open(fileName, 'r') as data:
         obj = json.load(data)
     vacationDays = obj["vacationDays"]
     startDate = parser.parse(obj["startDate"])
@@ -65,4 +65,4 @@ def makeJSON(filename):
     dumpToJson(dateList, filename)
 
 
-makeJSON('SchoolDataNYC20162017.json')
+makeJSON(fileName)
