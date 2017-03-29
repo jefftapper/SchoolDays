@@ -7,24 +7,23 @@ def howManySchoolDaysRemain(theDate, dateList):
 
 
 def getEndDay(dateList):
-    print dateList
-
     dateArray = []
     for dates in dateList:
-        dateArray.append(datetime.strptime(dates, "%m/%d/%y").date())
-
+        dateArray.append(datetime.strptime(dates, "%m/%d/%y"))
     dateArray = sorted(dateArray)
-
     return dateArray[len(dateArray) - 1]
 
 
-def howManyLeft(today):
+def howManyLeft():
+    today = date.today()
+    return numDaysRemaining(today)
+
+
+def numDaysRemaining(theDate):
     dateList = getDateList()
-
-    if today > getEndDay(dateList):
+    if theDate > getEndDay(dateList).date():
         return 0
-    return howManySchoolDaysRemain(today, dateList)
-
+    return howManySchoolDaysRemain(theDate, dateList)
 
 def getDateList():
     with open('SchoolDataNYC20162017.json') as data:
@@ -36,6 +35,8 @@ def whenIsLastDay():
     return getEndDay(getDateList())
 
 
-print howManyLeft(date(2017,06,29))
+print howManyLeft()
 
 print whenIsLastDay()
+
+print numDaysRemaining(date(2017, 6, 29))
