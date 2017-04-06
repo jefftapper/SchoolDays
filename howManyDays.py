@@ -1,5 +1,9 @@
 from datetime import date, datetime
 import json
+import SchoolDaysUtils;
+from dateutil import parser
+
+inputFileName = 'NYC20162017SchoolDates.json'
 
 
 def howManySchoolDaysRemain(theDate, dateList):
@@ -34,7 +38,23 @@ def getDateList():
 def whenIsLastDay():
     return getEndDay(getDateList())
 
+def isThereSchoolOnDay(date):
+    obj = SchoolDaysUtils.readSchoolData(inputFileName)
+    vacationDays = obj["vacationDays"]
+    startDate = parser.parse(obj["startDate"])
+    endDate = parser.parse(obj["endDate"])
+    #dateTimeOfDate = datetime.combine(date,datetime.time.min)
+    if  date < startDate.date():
+        return False
+    if date > endDate.date():
+        return False
+    if SchoolDaysUtils.isDayOff(date,vacationDays):
+        return False
+    else:
+        return True
 
+
+print isThereSchoolOnDay(date(2017, 4, 9))
 print howManyLeft()
 
 print whenIsLastDay()

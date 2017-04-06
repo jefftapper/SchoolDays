@@ -1,8 +1,10 @@
 from datetime import timedelta, date
 import json
 from dateutil import parser
+import SchoolDaysUtils;
 
-fileName = 'SchoolDataNYC20162017.json'
+inputFileName = 'NYC20172018SchoolDates.json'
+outputFileName = 'SchoolDataNYC20172018.json'
 def makeVacationDay(day, vacationDays):
     vacationDays[day] = True
 
@@ -21,32 +23,12 @@ def makeDateList(start, end, delta, vacationDays):
 
 
 def getDaysRemaining(currentDate, remainingDays, vacationDays):
-    if isDayOff(currentDate, vacationDays):
+    if SchoolDaysUtils.isDayOff(currentDate, vacationDays):
         return remainingDays
     else:
         return remainingDays + 1
 
 
-def isDayOff(currentDate, vacationDays):
-    if isWeekend(currentDate):
-        return True
-    if isVacationDay(currentDate.strftime("%x"), vacationDays):
-        return True
-    return False
-
-
-def isWeekend(currentDate):
-    if currentDate.weekday() > 4:
-        return True
-    else:
-        return False
-
-
-def isVacationDay(currentDate, vacationDays):
-    if currentDate in vacationDays:
-        return True
-    else:
-        return False
 
 
 def dumpToJson(data, filename):
@@ -55,14 +37,14 @@ def dumpToJson(data, filename):
         # print json.dumps(data)
 
 
-def makeJSON(filename):
-    with open(fileName, 'r') as data:
-        obj = json.load(data)
+def makeJSON(input):
+    obj = SchoolDaysUtils.readSchoolData(input)
     vacationDays = obj["vacationDays"]
     startDate = parser.parse(obj["startDate"])
     endDate = parser.parse(obj["endDate"])
     dateList = makeDateList(startDate, endDate, timedelta(days=-1), vacationDays)
-    dumpToJson(dateList, filename)
+    #dateList = sorted(dateList)
+    dumpToJson(dateList, outputFileName)
 
 
-makeJSON(fileName)
+makeJSON(inputFileName)
