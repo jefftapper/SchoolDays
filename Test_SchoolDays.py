@@ -4,6 +4,8 @@ import SchoolDaysUtils
 from datetime import date
 from datetime import datetime
 import json
+import AlexaSchoolDays
+
 
 if __name__ == '__main__':
     unittest.main()
@@ -67,3 +69,45 @@ class TestSchoolDays(unittest.TestCase):
 
         for date in known_days_off:
             self.assertFalse(howManyDays.isThereSchoolOnDay(date.date()))
+
+    def mock_intent(self, arg, argType):
+        intent = {}
+        intent['slots'] = {}
+        if not (arg is None):
+            intent['slots'][argType] = {}
+            intent['slots'][argType]['value'] = arg
+        return intent;
+
+    def get_output_speech(self, module, method, arg, argType):
+        intent = self.mock_intent(arg,argType)
+        session = {}
+        answer = getattr(module,method)(intent, session)
+        return answer['response']['outputSpeech']['text']
+
+
+    def test_alexa_is_there_school(self):
+        theDate =  date(2017, 6, 27)
+        firstResponse = self.get_output_speech(AlexaSchoolDays, "is_there_school", theDate, 'Date')
+        expectedResponse = "There is School on "+theDate.strftime('%B %d')
+        self.assertEqual(firstResponse.lower(), expectedResponse.lower())
+
+        offDay = date(2016, 9, 7)
+        secondResponse = self.get_output_speech(AlexaSchoolDays, "is_there_school", offDay, 'Date')
+        second_expectedResponse = "There is not school on " + offDay.strftime('%B %d')
+        self.assertEqual(secondResponse.lower(), second_expectedResponse.lower())
+
+    def test_alexa_whatIsLastDay(self):
+        expected_last_day = date(2017, 6, 28)
+        computed_last_day = self.get_output_speech(AlexaSchoolDays,"whatIsLastDay",None, None)
+        expected_last_day_string = "The last day of school in NYC is "+expected_last_day.strftime("%B %d")
+        self.assertEqual(computed_last_day,expected_last_day_string)
+
+
+    def test_alexa_i_hear_those_things(self):
+
+        computed_output = self.get_output_speech(AlexaSchoolDays,"i_hear_those_things",None, None)
+        expected_output = "It glides as softly as a cloud."
+        self.assertEqual(computed_output,expected_output)
+
+
+
