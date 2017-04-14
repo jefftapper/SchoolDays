@@ -10,6 +10,8 @@ WhatIsLastDay what is the last day of school in NYC
 WhatIsLastDay when is the last day of school in New York
 WhatIsLastDay what is the last day of school in New York
 IHearThoseThingsAreAwfullyLoud i hear those things are awfully loud
+IsThereSchoolOnDate Is there school today?
+IsThereSchoolOnDate Is there school on {Date}?
 AMAZON.HelpIntent Help
 AMAZON.StopIntent Stop
 AMAZON.StopIntent Cancel

@@ -23,8 +23,8 @@ def build_speechlet_response(title, output, reprompt_text, should_end_session):
         },
         'card': {
             'type': 'Simple',
-            'title': "SessionSpeechlet - " + title,
-            'content': "SessionSpeechlet - " + output
+            'title': title,
+            'content': output
         },
         'reprompt': {
             'outputSpeech': {
@@ -87,7 +87,7 @@ def get_help_response(intent, session):
     reprompt_text = "Try Again?"
 
     return build_response(session_attributes, build_speechlet_response(
-        intent['name'], speech_output, reprompt_text, should_end_session))
+        "n.y.c. schools help", speech_output, reprompt_text, should_end_session))
 
 def get_end_response(intent, session):
     """ Determines how many school days left.
@@ -113,8 +113,30 @@ def howManyDaysLeft(intent, session):
     reprompt_text = "Try Again?"
     should_end_session = True
     return build_response(session_attributes, build_speechlet_response(
-        intent['name'], speech_output, reprompt_text, should_end_session))
+        "How Many Days Left?", speech_output, reprompt_text, should_end_session))
 
+
+def is_there_school(intent, session):
+    """ Determines how many school days left.
+    """
+
+    session_attributes = {}
+    theDate = date.today()
+    if 'Date' in intent['slots']:
+        theDate = intent['slots']['Date']['value']
+
+    boolAnswer = howManyDays.isThereSchoolOnDay(theDate)
+
+    if(boolAnswer):
+        speech_output = "there is School on "+theDate.strftime('%B %d')
+    else:
+        speech_output = "there is not school on "+theDate.strftime('%B %d')
+
+
+    reprompt_text = "Try Again?"
+    should_end_session = True
+    return build_response(session_attributes, build_speechlet_response(
+        "Is There School", speech_output, reprompt_text, should_end_session))
 
 def whatIsLastDay(intent, session):
     session_attributes = {}
@@ -128,7 +150,7 @@ def whatIsLastDay(intent, session):
     # the user. If the user does not respond or says something that is not
     # understood, the session will end.
     return build_response(session_attributes, build_speechlet_response(
-        intent['name'], speech_output, reprompt_text, should_end_session))
+        "When is Last Day?", speech_output, reprompt_text, should_end_session))
 
 
 def i_hear_those_things(intent, session):
@@ -140,7 +162,7 @@ def i_hear_those_things(intent, session):
     # the user. If the user does not respond or says something that is not
     # understood, the session will end.
     return build_response(session_attributes, build_speechlet_response(
-        intent['name'], speech_output, reprompt_text, should_end_session))
+        "I Hear Those Things Are Awfully Loud", speech_output, reprompt_text, should_end_session))
 
 # --------------- Events ------------------
 
@@ -179,6 +201,8 @@ def on_intent(intent_request, session):
         return whatIsLastDay(intent, session)
     elif intent_name == "IHearThoseThingsAreAwfullyLoud":
         return i_hear_those_things(intent, session)
+    elif intent_name == "IsThereSchoolOnDate":
+        return is_there_school(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
         return get_help_response(intent, session)
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":

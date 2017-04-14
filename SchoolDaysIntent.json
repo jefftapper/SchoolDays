@@ -10,6 +10,15 @@
       "intent":"IHearThoseThingsAreAwfullyLoud"
     },
     {
+      "intent":"IsThereSchoolOnDate",
+      "slots":[
+        {
+        "name" : "Date",
+        "type" : "AMAZON.Date"
+        }
+      ]
+    },
+    {
       "intent":"AMAZON.HelpIntent"
     },
     {
