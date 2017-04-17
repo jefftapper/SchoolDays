@@ -1,10 +1,12 @@
-from datetime import date, datetime
 import json
-import SchoolDaysUtils;
+from datetime import date, datetime
+
 from dateutil import parser
 
-inputFileName = 'NYC20162017SchoolDates.json'
+import SchoolDaysUtils;
 
+inputFileName = './resources/data/NYC20162017SchoolDates.json'
+dateListFileName ='./resources/data/SchoolDataNYC20162017.json'
 
 def howManySchoolDaysRemain(theDate, dateList):
     return dateList[theDate.strftime("%x")]
@@ -30,7 +32,7 @@ def numDaysRemaining(theDate):
     return howManySchoolDaysRemain(theDate, dateList)
 
 def getDateList():
-    with open('SchoolDataNYC20162017.json') as data:
+    with open(dateListFileName) as data:
         dates = json.load(data)
     return dates
 
@@ -48,7 +50,7 @@ def isThereSchoolOnDay(date):
         return False
     if date > endDate.date():
         return False
-    if SchoolDaysUtils.isDayOff(date,vacationDays):
+    if SchoolDaysUtils.isDayOff(date, vacationDays):
         return False
     else:
         return True

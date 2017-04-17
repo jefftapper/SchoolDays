@@ -8,7 +8,9 @@ http://amzn.to/1LGWsLG
 """
 
 from __future__ import print_function
+
 from datetime import date
+
 import howManyDays
 
 
@@ -100,7 +102,7 @@ def get_end_response(intent, session):
     reprompt_text=""
     should_end_session = True
     return build_response(session_attributes, build_speechlet_response(
-        intent['name'], speech_output, reprompt_text, should_end_session))
+        "Exit n. y. c. schools skill", speech_output, reprompt_text, should_end_session))
 
 def howManyDaysLeft(intent, session):
     """ Determines how many school days left.
@@ -122,8 +124,14 @@ def is_there_school(intent, session):
 
     session_attributes = {}
     theDate = date.today()
-    if 'Date' in intent['slots']:
-        theDate = intent['slots']['Date']['value']
+    # if 'Date' in intent['slots']:
+    #     print(intent)
+    #     print(intent['slots'])
+    #     print(intent['slots']['Date'])
+    #     for key in intent['slots']['Date']:
+    #         print (key, '=', intent['slots']['Date'][key])
+    #     print(intent['slots']['Date']['name'])
+    #     theDate = intent['slots']['Date']['name']
 
     boolAnswer = howManyDays.isThereSchoolOnDay(theDate)
 
